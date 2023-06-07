@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan 1</title>
+
+    <!-- link Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        h1{
+            color: red;
+        }
+        table{
+            width: 90% !important;
+            margin: 50px auto;
+        }
+        table th:last-child{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        td a{
+            margin-right: 5px;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div id="tampilkan"></div>
+    <script>
+        let target= 'https://webpro.ptov.my.id/api/curduser.php?aksi=get';
+        const bacadata= new XMLHttpRequest();
+
+        bacadata.open("GET", target);
+        bacadata.send();
+
+        bacadata.onload= function(){
+            const jdta= JSON.parse(this.responseText);
+
+            console.log(jdta);
+
+            let tx= '<table class="table"><tr><th scope="col">#</th><th scope="col">NAMA LENGKAP</th><th scope="col">EMAIL</th><th scope="col">USERNAME</th><th scope="col"><a class="btn btn-primary" href="lat1-add.html">Tambah</a></th></tr>';
+            
+            let no= 1;
+            for( let cx= 0; cx < jdta.isi.length; cx++ ){
+
+            
+                tx += '<tr>'; 
+                    tx +=   '<td>'+no+'</td>'; 
+                    tx +=   '<td>'+jdta.isi[cx][0]+'</td>'; 
+                    tx +=   '<td>'+jdta.isi[cx][1]+'</td>'; 
+                    tx +=   '<td>'+jdta.isi[cx][2]+'</td>';
+                    tx +=   '<td>';
+                    tx +=   '<a class="btn btn-primary" href="lat1-update.html?id='+jdta.isi[cx][3]+'">Ubah</a>';
+                    tx +=   '<a class="btn btn-danger" href="lat1-del.html?id='+jdta.isi[cx][3]+'">Hapus</a>';
+                    tx +=   '</td>';
+                tx += '</tr>';
+
+                no++;
+            }
+
+            tx += '</table>';
+            document.getElementById('tampilkan').innerHTML= tx;
+
+        };
+    </script>
+</body>
+</html>
